@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Student API - Nhóm 6",
+    "description": "RESTful API quản lý sinh viên sử dụng Node.js, Express và MongoDB Atlas",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/api/students": {
+      "get": {
+        "summary": "Lấy danh sách sinh viên",
+        "tags": ["Students"],
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer", "default": 1 }, "description": "Số trang" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 }, "description": "Số lượng mỗi trang" },
+          { "name": "major", "in": "query", "schema": { "type": "string" }, "description": "Filter theo ngành học" }
+        ],
+        "responses": {
+          "200": { "description": "Lấy danh sách thành công" }
+        }
+      },
+      "post": {
+        "summary": "Tạo sinh viên mới",
+        "tags": ["Students"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "studentId", "email", "major"],
+                "properties": {
+                  "name": { "type": "string", "example": "Nguyễn Văn A" },
+                  "studentId": { "type": "string", "example": "SV001" },
+                  "email": { "type": "string", "example": "nguyenvana@email.com" },
+                  "major": { "type": "string", "example": "Công nghệ thông tin" },
+                  "score": { "type": "number", "example": 85 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Tạo sinh viên thành công" },
+          "400": { "description": "Dữ liệu không hợp lệ" }
+        }
+      }
+    },
+    "/api/students/{id}": {
+      "get": {
+        "summary": "Lấy chi tiết sinh viên",
+        "tags": ["Students"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Thành công" },
+          "404": { "description": "Không tìm thấy" }
+        }
+      },
+      "put": {
+        "summary": "Cập nhật sinh viên",
+        "tags": ["Students"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "email": { "type": "string" },
+                  "major": { "type": "string" },
+                  "score": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cập nhật thành công" },
+          "404": { "description": "Không tìm thấy" }
+        }
+      },
+      "delete": {
+        "summary": "Xóa sinh viên (soft delete)",
+        "tags": ["Students"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Xóa thành công" },
+          "404": { "description": "Không tìm thấy" }
+        }
+      }
+    },
+    "/api/students/{id}/score": {
+      "patch": {
+        "summary": "Cập nhật điểm sinh viên",
+        "tags": ["Score"],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["score"],
+                "properties": {
+                  "score": { "type": "number", "minimum": 0, "maximum": 100, "example": 90 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cập nhật điểm thành công" },
+          "400": { "description": "Dữ liệu không hợp lệ (score phải 0-100)" },
+          "404": { "description": "Không tìm thấy sinh viên" }
+        }
+      }
+    },
+    "/api/students/top": {
+      "get": {
+        "summary": "Lấy top sinh viên theo điểm",
+        "tags": ["Advanced"],
+        "parameters": [
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 5 }, "description": "Số lượng top" }
+        ],
+        "responses": {
+          "200": { "description": "Thành công" }
+        }
+      }
+    },
+    "/api/students/stats/avg": {
+      "get": {
+        "summary": "Tính điểm trung bình",
+        "tags": ["Advanced"],
+        "responses": {
+          "200": { "description": "Thành công" }
+        }
+      }
+    },
+    "/api/students/search": {
+      "get": {
+        "summary": "Tìm kiếm sinh viên theo tên",
+        "tags": ["Advanced"],
+        "parameters": [
+          { "name": "q", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Từ khóa tìm kiếm" }
+        ],
+        "responses": {
+          "200": { "description": "Thành công" }
+        }
+      }
+    }
+  }
+}

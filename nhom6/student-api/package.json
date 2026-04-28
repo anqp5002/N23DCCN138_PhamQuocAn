@@ -1,0 +1,23 @@
+{
+  "name": "student-api",
+  "version": "1.0.0",
+  "description": "Student Management RESTful API - Nhom 6",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["student", "api", "mongodb", "express"],
+  "author": "Nhom 6",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^7.8.6",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
